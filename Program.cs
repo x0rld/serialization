@@ -1,5 +1,5 @@
-﻿
-using System.Text.Json;
+﻿using System.Text.Json;
+
 namespace serialize;
 
 internal class Program
@@ -12,8 +12,8 @@ internal class Program
          */
         /*
          * Menu/mdp 
-         */
-        
-        Console.Write("SERIALIZATION");
+         */ 
+        var data = File.ReadAllText("data.json");
+        var root = JsonSerializer.Deserialize<Root>(data) ?? throw new InvalidOperationException("Error no json");
     }
 }

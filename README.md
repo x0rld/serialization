@@ -19,11 +19,8 @@ nombre de questionnaire rendu avec au moins 3 bonnes réponses
 exemple  
 les utilisateurs ont participés à X questionnaire. Y sur X questionnaire on obtenus une note supérieure à la moyenne
 ------------------------------------------------------------------------
-rouvez un moyen de chiffrer le mot de passe  
+trouvez un moyen de hasher le mot de passe  
 permettre a l'administrateur d'obtenir une liste des questionnaire numéroté
-
-trouvez un moyen de crypter le mot de passe
-permettre a l'administrateur d'obtenir une liste des questionnaire numérotée
 du style :
 - questionnaire 1
 - questionnaire 2
