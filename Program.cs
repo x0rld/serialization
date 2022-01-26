@@ -10,18 +10,30 @@ internal class Program
         string username ="";
         string password ="";
         Quiz myQuiz = new Quiz("user", "pass");
-        
-        Console.WriteLine("se connecter :");
-        username = Console.ReadLine();
-        Console.WriteLine("mot de passe :");
-        password = Console.ReadLine();
-        bool isconnected = myQuiz.VerifUser(username, password);
-  /*      if (isconnected)
+
+        try
         {
-            Console.WriteLine("connecté");
-            if(username == "User")
-                myQuiz.DisplayQuiz();
-        }*/
+            Console.WriteLine("se connecter :");
+            username = Console.ReadLine();
+            Console.WriteLine("mot de passe :");
+            password = Console.ReadLine();
+            bool isconnected = myQuiz.VerifUser(username, password);
+            if (isconnected)
+            {
+                if (username != "Admin") // User
+                    myQuiz.DisplayQuiz();
+                else // Admin
+                {
+                    myQuiz.DisplayAdminMenu();
+                }
+            }
+        }
+        catch (Exception)
+        {
+            Console.WriteLine("Erreur");
+        }
+        
+
 
         /*
          * File.ReadAllLines("data.json");

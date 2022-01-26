@@ -19,9 +19,6 @@ namespace serialize
             Password = _password;
         }
 
-
-
-
         //Verification de la saisie 
         public bool VerifUser(string user, string pass)
         {
@@ -35,15 +32,43 @@ namespace serialize
                 Console.WriteLine("Mauvais identifiant ou mot de passe");
                 return false;
             }
-            else return true;
+            else
+            {
+                Console.WriteLine("connecté");
+                return true;
+            }
         }
 
+        // Affichage du Quiz
         public void DisplayQuiz()
+        {
+            Console.WriteLine("Début du quiz");
+
+        }
+        //Affichage du menu pour l'Admin
+        public void DisplayAdminMenu()
+        {
+            string userAnswer;
+            Console.WriteLine("Voulez vous ouvrir un questionnaire? (o/n)");
+            userAnswer = Console.ReadLine();
+            while(userAnswer != "o" || userAnswer != "n")
+            {
+                Console.WriteLine("Nous n'avons pas comprix votre choix");
+                userAnswer = Console.ReadLine();
+            }
+            if (userAnswer == "o")
+                DisplayAdminListQuiz();
+        }
+
+
+        //Affichage de la liste des questionnaires.
+        public void DisplayAdminListQuiz()
         {
 
         }
-            
-       
+
+
+
 
     }
 }
