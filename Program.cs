@@ -1,5 +1,5 @@
-﻿using System;
-using System.Text.Json;
+﻿using System.Text.Json;
+
 
 namespace serialize;
 
@@ -36,17 +36,10 @@ internal class Program
 
 
         /*
-         * File.ReadAllLines("data.json");
-         * serializeJSon
-         */
-        /*
+         *    Root data = Serializer.Deserialize(string path);
+         *    data.Users pout les utilisateurs
          * Menu/mdp 
          */
-        /*
-        Console.WriteLine("SERIALIZATION");
-        */
-
-
     }
 
     //Affichage du menu
