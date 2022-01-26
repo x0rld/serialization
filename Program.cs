@@ -7,13 +7,9 @@ internal class Program
     private static void Main(string[] args)
     {
         /*
-         * File.ReadAllLines("data.json");
-         * serializeJSon
-         */
-        /*
+         *    Root data = Serializer.Deserialize(string path);
+         *    data.Users pout les utilisateurs
          * Menu/mdp 
-         */ 
-        var data = File.ReadAllText("data.json");
-        var root = JsonSerializer.Deserialize<Root>(data) ?? throw new InvalidOperationException("Error no json");
+         */
     }
 }
