@@ -1,17 +1,13 @@
 ﻿using System.Text.Json;
-
-
 namespace serialize;
-
 internal class Program
 {
     private static void Main(string[] args)
     {
         string username;
         string password;
-        Quiz myQuiz = new Quiz("user","pass");
-        try
-        {
+        Quiz myQuiz = new Quiz();
+
             Console.WriteLine("se connecter :");
             username = Console.ReadLine();
             Console.WriteLine("mot de passe :");
@@ -27,14 +23,6 @@ internal class Program
                     myQuiz.DisplayAdminMenu();
                 }
             }
-        }
-        catch (Exception)
-        {
-            Console.WriteLine("Erreur");
-        }
-        
-
-
         /*
          *    Root data = Serializer.Deserialize(string path);
          *    data.Users pout les utilisateurs
