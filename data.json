@@ -1,0 +1,39 @@
+[
+  {
+    "users" :[ {
+      "Id": 1,
+      "Name": "Admin",
+      "Password": "4dmin"
+    },
+      {
+        "Id":2,
+        "Name":"User",
+        "Password":"useR"
+      }
+    ]
+  },
+    {
+    "Questions":
+    [
+      "Quelle est la capitale de la France",
+      "Quelle est la capitale de l'Allemagne",
+      "Quelle est la capitale de la Pologne",
+      "Quelle est la capitale de la Suède"
+    ]
+  },
+  {
+    "Responses":
+    [
+      "Paris",
+      "Berlin",
+      "Varsovie",
+      "Stockholm"
+    ]
+  },
+  {
+    "Result": {
+      "Participate": 0,
+      "GoodResult": 0
+    }
+  }
+]
