@@ -13,21 +13,24 @@ namespace serialize
         private string _password;
         public string Password { get { return _password; } set { _password = value; } }
 
+        //Constructeur
         public Quiz(string user, string password)
         {
-            Username = _username;
-            Password = _password;
+            Username = user;
+            Password = password;
         }
 
         //Verification de la saisie 
         public bool VerifUser(string user, string pass)
         {
-            if (user == "" || pass == "")
+            Console.WriteLine(user);
+            Console.WriteLine(pass);
+            if (user == "" || pass == "") // Vide
             {
                 Console.WriteLine("Vous n'avez rien saisi.");
                 return false;
             }
-            else if (user != Username || pass != Password)
+            else if (user != Username || pass != Password) 
             {
                 Console.WriteLine("Mauvais identifiant ou mot de passe");
                 return false;
@@ -56,17 +59,19 @@ namespace serialize
                 Console.WriteLine("Nous n'avons pas comprix votre choix");
                 userAnswer = Console.ReadLine();
             }
-            if (userAnswer == "o")
-                DisplayAdminListQuiz();
+        /*    if (userAnswer == "o")
+                DisplayAdminListQuiz();*/
         }
 
 
         //Affichage de la liste des questionnaires.
-        public void DisplayAdminListQuiz()
+   /*     public void DisplayAdminListQuiz()
         {
+            //Liste
 
+            Console.WriteLine("Voulez")
         }
-
+   */
 
 
 
