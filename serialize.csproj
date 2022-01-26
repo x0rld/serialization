@@ -7,6 +7,9 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
     <ItemGroup>
+        <None Update=".gitignore">
+          <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+        </None>
         <None Update="data.json">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
