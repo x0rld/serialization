@@ -6,7 +6,7 @@ using System.Text;
 using System.Security.Cryptography;
 public class Hash
 {
-    public static string ComputeSha256Hash(string rawData)
+    public static string ComputeSha256Hash(string? rawData)
     {
         using var sha256Hash = SHA256.Create();
         byte[] bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(rawData));  
@@ -19,7 +19,7 @@ public class Hash
         return hash.ToString();
     }
 
-    public static bool ComparePAsswordHash(string inputPassword, string databaseHash)
+    public static bool ComparePAsswordHash(string? inputPassword, string? databaseHash)
     {
         return ComputeSha256Hash(inputPassword) == databaseHash;
     }
@@ -30,11 +30,11 @@ public class Hash
         var datas = Serializer.Deserialize("databackup.json");
         foreach (var user in datas.Users)
         {
-            if (regex.IsMatch(user.Password))
+            if (!regex.IsMatch(user.Password))
             {
                user.Password = ComputeSha256Hash(user.Password);
             }
-            Serializer.Serialize(datas,"databackup.json");
         }
+        Serializer.Serialize(datas,"databackup.json");
     }
 }
