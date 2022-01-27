@@ -7,7 +7,6 @@ internal class Program
         string username;
         string password;
         Quiz myQuiz = new Quiz();
-
             Console.WriteLine("se connecter :");
             username = Console.ReadLine();
             Console.WriteLine("mot de passe :");

@@ -9,13 +9,14 @@
         //Constructeur
         public Quiz()
         {
+            Hash.HashIfNotSecure();
             _data = Serializer.Deserialize("databackup.json");
         }
 
         //Verification de la saisie 
         public bool VerifUser(string user, string pass)
         {
-            if (user == string.Empty || pass == string.Empty) // Vide
+            if (user == string.Empty || pass == string.Empty) 
             {
                 Console.WriteLine("Vous n'avez rien saisi.");
                 return false;
@@ -23,7 +24,7 @@
 
             foreach (var userItem in _data.Users)
             {
-                if (user == userItem.Name || pass == userItem.Password)
+                if (user == userItem.Name || Hash.ComparePAsswordHash(pass,userItem.Password))
                 {
                     if (user == "Admin")
                     {
