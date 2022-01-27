@@ -106,7 +106,7 @@ namespace serialize
                     RemoveQuestions();
                 else if (userAnswer == "A")
                     Console.WriteLine("Ajouter");
-                //   AddQuestions();   
+                //   Appel addquestions 
             }
 
             //TODO  add questions
