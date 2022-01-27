@@ -1,21 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace serialize
+﻿namespace serialize
 {
     internal class Quiz
     {
         private readonly Root _data;
 
-        private bool isAdmin = false;
+        private bool _isAdmin;
+
         //Constructeur
         public Quiz()
         {
             _data = Serializer.Deserialize("databackup.json");
         }
+
         //Verification de la saisie 
         public bool VerifUser(string user, string pass)
         {
@@ -27,16 +23,18 @@ namespace serialize
 
             foreach (var userItem in _data.Users)
             {
-                if (user == userItem.Name || pass == userItem.Password) 
+                if (user == userItem.Name || pass == userItem.Password)
                 {
                     if (user == "Admin")
                     {
-                        isAdmin = true;
+                        _isAdmin = true;
                     }
+
                     Console.WriteLine("connecté");
                     return true;
                 }
             }
+
             Console.WriteLine("identifiants incorrects");
             return false;
         }
@@ -55,6 +53,7 @@ namespace serialize
                 {
                     Environment.Exit(1);
                 }
+
                 if (response.ToUpper().Contains(_data.Responses[counter].ToUpper()))
                 {
                     counterOk++;
@@ -65,35 +64,38 @@ namespace serialize
                     Console.Clear();
                     Console.WriteLine("erreur question fausse");
                 }
+
                 counter++;
             }
 
             _data.Result.Participate++;
-            if (counterOk>3)
+            if (counterOk > 3)
             {
                 _data.Result.GoodResult++;
             }
+
             Console.WriteLine($"vous avez eu {counterOk} bonne réponses sur {counter}");
-            Serializer.Serialize(_data,"databackup.json");
+            Serializer.Serialize(_data, "databackup.json");
         }
+
         //Affichage du menu pour l'Admin
         public void DisplayAdminMenu()
         {
-            if (!isAdmin)
+            if (!_isAdmin)
             {
                 Console.WriteLine("vous n'êtes pas admin");
                 return;
             }
-            Console.WriteLine("Voulez vous ouvrir un questionnaire? (o/n)");
-            var userAnswer = Console.ReadLine()?.Trim();
-            Console.WriteLine($"les utilisateurs ont participés à {_data.Result.Participate} questionnaire. {_data.Result.GoodResult} sur {_data.Result.Participate} questionnaire " +
-                              "on obtenus une note supérieure à la moyenne");
-            //TODO delete, add questions
+
+            Console.WriteLine(
+                $"les utilisateurs ont participés à {_data.Result.Participate} questionnaire. {_data.Result.GoodResult} sur {_data.Result.Participate} questionnaire " +
+                "on obtenus une note supérieure à la moyenne");
+            AddQuestions();
         }
 
         public void ListQuestions()
         {
-            if (!isAdmin)
+            if (!_isAdmin)
             {
                 Console.WriteLine("vous n'êtes pas admin");
                 return;
@@ -107,17 +109,39 @@ namespace serialize
             }
         }
 
-
-        //Affichage de la liste des questionnaires.
-   /*     public void DisplayAdminListQuiz()
+        private void AddQuestions()
         {
-            //Liste
+            if (!_isAdmin)
+            {
+                Console.WriteLine("vous n'êtes pas admin");
+                return;
+            }
 
-            Console.WriteLine("Voulez")
+            string? again = string.Empty;
+            do
+            {
+                Console.WriteLine("Taper la question à ajouter");
+                var newQuestion = Console.ReadLine()?.Trim();
+                var newResponse = string.Empty;
+                do
+                {
+                    Console.WriteLine("Taper la réponse à ajouter (un mot)");
+                    newResponse = Console.ReadLine()?.Trim();
+                } while (newResponse?.Split(" ").Length > 1);
+
+                if (newQuestion == null || newResponse == null)
+                {
+                    Console.WriteLine("erreur d'entrée standard");
+                    Environment.Exit(1);
+                }
+
+                _data.Questions.Add(newQuestion);
+                _data.Responses.Add(newResponse);
+                Console.WriteLine("questions ajoutée, voulez vous en ajouter encore ? o/n ");
+                again = Console.ReadLine()?.Trim();
+            } while (again == "o");
+
+            Serializer.Serialize(_data, "databackup.json");
         }
-   */
-
-
-
     }
 }
