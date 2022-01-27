@@ -88,6 +88,9 @@ namespace serialize
             var userAnswer = Console.ReadLine()?.Trim();
             Console.WriteLine($"les utilisateurs ont participés à {_data.Result.Participate} questionnaire. {_data.Result.GoodResult} sur {_data.Result.Participate} questionnaire " +
                               "on obtenus une note supérieure à la moyenne");
+            if(userAnswer == "n"){
+                RemoveQuestions();
+            }
             //TODO delete, add questions
         }
 
@@ -107,6 +110,21 @@ namespace serialize
             }
         }
 
+        //Supprimer une ou plusieurs questions
+        private void RemoveQuestions()
+        {
+            int counter = 0;
+            Console.WriteLine("Saisissez le numéro de la supprimer.\nPour plusieurs questions, espacez les numéro d'une virgule.");
+            var numbers = Console.ReadLine().Split(",");
+            foreach (var number in numbers)
+            {
+                _data.Questions.RemoveAt(counter);
+                _data.Responses.RemoveAt(counter);
+                counter++;
+            }
+            Serializer.Serialize(_data,"databackup.json");
+
+        }
 
         //Affichage de la liste des questionnaires.
    /*     public void DisplayAdminListQuiz()
