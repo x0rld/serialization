@@ -4,39 +4,31 @@ internal class Program
 {
     private static void Main(string[] args)
     {
-     
-        
-        Quiz myQuiz = new Quiz();
+
+        string? username;
+        string? password;
+        var myQuiz = new Quiz();
+        do
+        {
             Console.WriteLine("se connecter :");
-            var username = Console.ReadLine()?.Trim();
+            username = Console.ReadLine()?.Trim();
             Console.WriteLine("mot de passe :");
-            var password = Console.ReadLine();
+            password = Console.ReadLine();
             if (username == null || password == null)
             {
                 Environment.Exit(1);
             }
-            //Si l'utilisateur est connecté, on vérifie maintenant s'il s'agit de l'admin ou d'un user.
-            if (myQuiz.VerifUser(username, password))
-            {
-                if (username != "Admin") // User car != admin
-                    myQuiz.StartQuiz();
-                else // Admin
-                {
-                    myQuiz.DisplayAdminMenu();
-                }
-            }
-        /*
-         *    Root data = Serializer.Deserialize(string path);
-         *    data.Users pout les utilisateurs
-         * Menu/mdp 
-         */
+        } while (myQuiz.VerifUser(username, password));
+        //Si l'utilisateur est connecté, on vérifie maintenant s'il s'agit de l'admin ou d'un user.
+        if (username != "Admin") // User car != admin
+        {
+            myQuiz.StartQuiz();
+        }
+        else // Admin
+        {
+            myQuiz.DisplayAdminMenu();
+        }
     }
-
-    //Affichage du menu
-
-
-
-
 }
 
 

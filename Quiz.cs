@@ -1,6 +1,4 @@
-﻿using System.Text.Json;
-
-namespace serialize;
+﻿namespace serialize;
 
 internal class Quiz
 {
@@ -8,14 +6,12 @@ internal class Quiz
 
     private bool _isAdmin;
 
-    //Constructeur
     public Quiz()
     {
         Hash.HashIfNotSecure();
         _data = Serializer.Deserialize("databackup.json");
     }
 
-    //Verification de la saisie 
     public bool VerifUser(string user, string pass)
     {
         if (user == string.Empty || pass == string.Empty)
@@ -71,17 +67,16 @@ internal class Quiz
             counter++;
         }
 
-            _data.Result.Participate++;
-            if (counterOk>3)
-            {
-                _data.Result.GoodResult++;
-            }
-            _data.UserResponses.Add(userResponses);
-            Console.WriteLine($"vous avez eu {counterOk} bonne réponses sur {counter}");
-            Serializer.Serialize(_data,"databackup.json");
+        _data.Result.Participate++;
+        if (counterOk>3)
+        {
+            _data.Result.GoodResult++;
+        }
+        _data.UserResponses.Add(userResponses);
+        Console.WriteLine($"vous avez eu {counterOk} bonne réponses sur {counter}");
+        Serializer.Serialize(_data,"databackup.json");
         }
 
-        //Affichage du menu pour l'Admin
         public void DisplayAdminMenu()
         {
             if (!_isAdmin)
@@ -95,12 +90,7 @@ internal class Quiz
             var userAnswer = Console.ReadLine()?.Trim();
             if (userAnswer == "o")
             {
-                int counter = 0;
-                foreach (var question in _data.Questions)
-                {
-                    Console.WriteLine($"{counter}: ${question}");
-                    counter++;
-                }
+                DisplayUserResponsesList();
             }
             else
             {
@@ -109,11 +99,8 @@ internal class Quiz
                 if (userAnswer == "D")
                     RemoveQuestions();
                 else if (userAnswer == "A")
-                    Console.WriteLine("Ajouter");
-                //   AddQuestions();   
+                   AddQuestions();   
             }
-
-            //TODO  add questions
         }
 
     private void DisplayUserResponsesList()
@@ -124,21 +111,24 @@ internal class Quiz
             return;
         }
         var counter = 0;
-        foreach (var userResponse in _data.UserResponses)
+        foreach (var _ in _data.UserResponses)
         {
             Console.WriteLine("questionnaire " + counter);
             counter++;
         }
-        Console.WriteLine("écrire le numéro du questionnaire à afficher");
-        var numberString = Console.ReadLine()?.Trim();
-        if (int.TryParse(numberString, out var number))
+
+        string? numberString;
+        int number;
+        do
         {
-            Console.WriteLine("les réponses sont: ");
+            Console.WriteLine("écrire le numéro du questionnaire à afficher");
+             numberString = Console.ReadLine()?.Trim();
+        } while (int.TryParse(numberString, out number) && number < counter);
+        Console.WriteLine("les réponses sont: ");
             foreach (var data in _data.UserResponses[number])
             {
                 Console.WriteLine($"{data}");
             }
-        }
     }
     private void AddQuestions()
     {
@@ -148,12 +138,12 @@ internal class Quiz
             return;
         }
 
-        string? again = string.Empty;
+        string? again;
         do
         {
             Console.WriteLine("Taper la question à ajouter");
             var newQuestion = Console.ReadLine()?.Trim();
-            var newResponse = string.Empty;
+            string? newResponse;
             do
             {
                 Console.WriteLine("Taper la réponse à ajouter (un mot)");
@@ -174,12 +164,10 @@ internal class Quiz
 
         Serializer.Serialize(_data, "databackup.json");
     }
-    //Supprimer une ou plusieurs questions
     private void RemoveQuestions()
     {
-            
         Console.WriteLine("Saisissez le numéro de la supprimer.");
-        int number = Int32.Parse(Console.ReadLine());
+        var number = int.Parse(Console.ReadLine() ?? string.Empty);
         _data.Questions.RemoveAt(number - 1);
         _data.Responses.RemoveAt(number - 1);
         Serializer.Serialize(_data, "databackup.json");

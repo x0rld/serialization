@@ -32,6 +32,7 @@ public class Hash
         {
             if (!regex.IsMatch(user.Password))
             {
+                Console.WriteLine("HASHING UNSAFE PASSWORD");
                user.Password = ComputeSha256Hash(user.Password);
             }
         }
