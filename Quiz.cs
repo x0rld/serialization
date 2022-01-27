@@ -76,6 +76,7 @@ namespace serialize
             Console.WriteLine($"vous avez eu {counterOk} bonne réponses sur {counter}");
             Serializer.Serialize(_data,"databackup.json");
         }
+
         //Affichage du menu pour l'Admin
         public void DisplayAdminMenu()
         {
@@ -84,13 +85,34 @@ namespace serialize
                 Console.WriteLine("vous n'êtes pas admin");
                 return;
             }
+            Console.WriteLine($"les utilisateurs ont participés à {_data.Result.Participate} questionnaire. {_data.Result.GoodResult} sur {_data.Result.Participate} questionnaire " +
+                             "on obtenus une note supérieure à la moyenne");
             Console.WriteLine("Voulez vous ouvrir un questionnaire? (o/n)");
             var userAnswer = Console.ReadLine()?.Trim();
-            Console.WriteLine($"les utilisateurs ont participés à {_data.Result.Participate} questionnaire. {_data.Result.GoodResult} sur {_data.Result.Participate} questionnaire " +
-                              "on obtenus une note supérieure à la moyenne");
-            //TODO delete, add questions
+            if (userAnswer == "o")
+            {
+                int counter = 0;
+                foreach (var question in _data.Questions)
+                {
+                    Console.WriteLine($"{counter}: ${question}");
+                    counter++;
+                }
+            }
+            else
+            {
+                Console.WriteLine("Tapez A pour ajouter des questions, D pour supprimer des questions");
+                userAnswer = Console.ReadLine()?.Trim();
+                if (userAnswer == "D")
+                    RemoveQuestions();
+                else if (userAnswer == "A")
+                    Console.WriteLine("Ajouter");
+                //   AddQuestions();   
+            }
+
+            //TODO  add questions
         }
 
+        //Liste des questions
         public void ListQuestions()
         {
             if (!isAdmin)
@@ -102,20 +124,22 @@ namespace serialize
             int counter = 0;
             foreach (var question in _data.Questions)
             {
-                Console.WriteLine($"{counter}: ${question}");
+                Console.WriteLine($"{counter}: {question}");
                 counter++;
             }
         }
 
-
-        //Affichage de la liste des questionnaires.
-   /*     public void DisplayAdminListQuiz()
+        //Supprimer une ou plusieurs questions
+        private void RemoveQuestions()
         {
-            //Liste
-
-            Console.WriteLine("Voulez")
+            
+            Console.WriteLine("Saisissez le numéro de la supprimer.");
+            int number = Int32.Parse(Console.ReadLine());
+                _data.Questions.RemoveAt(number - 1);
+                _data.Responses.RemoveAt(number - 1);
+            Serializer.Serialize(_data, "databackup.json");
         }
-   */
+
 
 
 
