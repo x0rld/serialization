@@ -8,59 +8,103 @@ namespace serialize
 {
     internal class Quiz
     {
-        private string _username;
-        public string Username { get { return _username; } set { _username = value; } }
-        private string _password;
-        public string Password { get { return _password; } set { _password = value; } }
+        private readonly Root _data;
 
+        private bool isAdmin = false;
         //Constructeur
-        public Quiz(string user, string password)
+        public Quiz()
         {
-            Username = user;
-            Password = password;
+            _data = Serializer.Deserialize("databackup.json");
         }
-
         //Verification de la saisie 
         public bool VerifUser(string user, string pass)
         {
-            Console.WriteLine(user);
-            Console.WriteLine(pass);
-            if (user == "" || pass == "") // Vide
+            if (user == string.Empty || pass == string.Empty) // Vide
             {
                 Console.WriteLine("Vous n'avez rien saisi.");
                 return false;
             }
-            else if (user != Username || pass != Password) 
+
+            foreach (var userItem in _data.Users)
             {
-                Console.WriteLine("Mauvais identifiant ou mot de passe");
-                return false;
+                if (user == userItem.Name || pass == userItem.Password) 
+                {
+                    if (user == "Admin")
+                    {
+                        isAdmin = true;
+                    }
+                    Console.WriteLine("connecté");
+                    return true;
+                }
             }
-            else
-            {
-                Console.WriteLine("connecté");
-                return true;
-            }
+            Console.WriteLine("identifiants incorrects");
+            return false;
         }
 
         // Affichage du Quiz
         public void DisplayQuiz()
         {
             Console.WriteLine("Début du quiz");
+            int counter = 0;
+            int counterOk = 0;
+            foreach (var question in _data.Questions)
+            {
+                Console.WriteLine(question);
+                var response = Console.ReadLine()?.Trim();
+                if (response == null)
+                {
+                    Environment.Exit(1);
+                }
+                if (response.ToUpper().Contains(_data.Responses[counter].ToUpper()))
+                {
+                    counterOk++;
+                    Console.Clear();
+                }
+                else
+                {
+                    Console.Clear();
+                    Console.WriteLine("erreur question fausse");
+                }
+                counter++;
+            }
 
+            _data.Result.Participate++;
+            if (counterOk>3)
+            {
+                _data.Result.GoodResult++;
+            }
+            Console.WriteLine($"vous avez eu {counterOk} bonne réponses sur {counter}");
+            Serializer.Serialize(_data,"databackup.json");
         }
         //Affichage du menu pour l'Admin
         public void DisplayAdminMenu()
         {
-            string userAnswer;
-            Console.WriteLine("Voulez vous ouvrir un questionnaire? (o/n)");
-            userAnswer = Console.ReadLine();
-            while(userAnswer != "o" || userAnswer != "n")
+            if (!isAdmin)
             {
-                Console.WriteLine("Nous n'avons pas comprix votre choix");
-                userAnswer = Console.ReadLine();
+                Console.WriteLine("vous n'êtes pas admin");
+                return;
             }
-        /*    if (userAnswer == "o")
-                DisplayAdminListQuiz();*/
+            Console.WriteLine("Voulez vous ouvrir un questionnaire? (o/n)");
+            var userAnswer = Console.ReadLine()?.Trim();
+            Console.WriteLine($"les utilisateurs ont participés à {_data.Result.Participate} questionnaire. {_data.Result.GoodResult} sur {_data.Result.Participate} questionnaire " +
+                              "on obtenus une note supérieure à la moyenne");
+            //TODO delete, add questions
+        }
+
+        public void ListQuestions()
+        {
+            if (!isAdmin)
+            {
+                Console.WriteLine("vous n'êtes pas admin");
+                return;
+            }
+
+            int counter = 0;
+            foreach (var question in _data.Questions)
+            {
+                Console.WriteLine($"{counter}: ${question}");
+                counter++;
+            }
         }
 
 

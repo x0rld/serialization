@@ -10,10 +10,7 @@ public class Serializer
 
     public static void Serialize(Root classToJson,string path)
     {
-        var fs = new FileStream(path, FileMode.CreateNew);
-        using (StreamWriter writer = new StreamWriter(fs))
-        {
-             writer.Write(JsonSerializer.Serialize(classToJson));
-        }
+        using StreamWriter writer = new StreamWriter(path);
+        writer.Write(JsonSerializer.Serialize(classToJson));
     }
 }
