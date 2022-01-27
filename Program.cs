@@ -4,20 +4,22 @@ internal class Program
 {
     private static void Main(string[] args)
     {
-        string username;
-        string password;
+     
+        
         Quiz myQuiz = new Quiz();
-
             Console.WriteLine("se connecter :");
-            username = Console.ReadLine();
+            var username = Console.ReadLine()?.Trim();
             Console.WriteLine("mot de passe :");
-            password = Console.ReadLine();
-            bool isconnected = myQuiz.VerifUser(username, password);
+            var password = Console.ReadLine();
+            if (username == null || password == null)
+            {
+                Environment.Exit(1);
+            }
             //Si l'utilisateur est connecté, on vérifie maintenant s'il s'agit de l'admin ou d'un user.
-            if (isconnected)
+            if (myQuiz.VerifUser(username, password))
             {
                 if (username != "Admin") // User car != admin
-                    myQuiz.DisplayQuiz();
+                    myQuiz.StartQuiz();
                 else // Admin
                 {
                     myQuiz.DisplayAdminMenu();
