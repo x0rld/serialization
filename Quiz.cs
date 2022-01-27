@@ -37,45 +37,42 @@ internal class Quiz
     }
 
     public void StartQuiz()
-    {
-        Console.WriteLine("Début du quiz");
-        int counter = 0;
-        int counterOk = 0;
-        var userResponses = new List<string>();
-        foreach (var question in _data.Questions)
-        {
-            Console.WriteLine(question);
-            var response = Console.ReadLine()?.Trim();
-            if (response == null)
-            {
-                Environment.Exit(1);
-            }
-
-            if (response.ToUpper().Contains(_data.Responses[counter].ToUpper()))
-            {
-                userResponses.Add(response);
-                counterOk++;
-                Console.Clear();
-            }
-            else
-            {
-                userResponses.Add(response);
-                Console.Clear();
-                Console.WriteLine("erreur question fausse");
-            }
-
-            counter++;
-        }
-
-        _data.Result.Participate++;
-        if (counterOk>3)
-        {
-            _data.Result.GoodResult++;
-        }
-        _data.UserResponses.Add(userResponses);
-        Console.WriteLine($"vous avez eu {counterOk} bonne réponses sur {counter}");
-        Serializer.Serialize(_data,"databackup.json");
-        }
+     {
+         Console.WriteLine("Début du quiz");
+         var counter = 0;
+         var counterOk = 0;
+         var userResponses = new List<string>();
+         foreach (var question in _data.Questions)
+         {
+             Console.WriteLine(question);
+             var response = Console.ReadLine()?.Trim();
+             if (response == null) Environment.Exit(1);
+ 
+             if (response.ToUpper().Contains(_data.Responses[counter].ToUpper()))
+             {
+                 userResponses.Add(response);
+                 counterOk++;
+                 Console.Clear();
+             }
+             else
+             {
+                 userResponses.Add(response);
+                 Console.Clear();
+                 Console.WriteLine("erreur question fausse");
+             }
+ 
+             counter++;
+         }
+ 
+         _data.Result.Participate++;
+         if (counterOk>3)
+         {
+             _data.Result.GoodResult++;
+         }
+         _data.UserResponses.Add(userResponses);
+         Console.WriteLine($"vous avez eu {counterOk} bonne réponses sur {counter}");
+         Serializer.Serialize(_data,"databackup.json");
+    }
 
         public void DisplayAdminMenu()
         {
@@ -97,7 +94,7 @@ internal class Quiz
                 Console.WriteLine("Tapez A pour ajouter des questions, D pour supprimer des questions");
                 userAnswer = Console.ReadLine()?.Trim();
                 if (userAnswer == "D")
-                    RemoveQuestions();
+                    RemoveQuestion();
                 else if (userAnswer == "A")
                    AddQuestions();   
             }
@@ -116,20 +113,18 @@ internal class Quiz
             Console.WriteLine("questionnaire " + counter);
             counter++;
         }
-
-        string? numberString;
         int number;
         do
         {
             Console.WriteLine("écrire le numéro du questionnaire à afficher");
-             numberString = Console.ReadLine()?.Trim();
-        } while (int.TryParse(numberString, out number) && number < counter);
+        } while (int.TryParse(Console.ReadLine(), out number) && number <= counter);
         Console.WriteLine("les réponses sont: ");
             foreach (var data in _data.UserResponses[number])
             {
                 Console.WriteLine($"{data}");
             }
     }
+    
     private void AddQuestions()
     {
         if (!_isAdmin)
@@ -137,7 +132,6 @@ internal class Quiz
             Console.WriteLine("vous n'êtes pas admin");
             return;
         }
-
         string? again;
         do
         {
@@ -155,22 +149,29 @@ internal class Quiz
                 Console.WriteLine("erreur d'entrée standard");
                 Environment.Exit(1);
             }
-
             _data.Questions.Add(newQuestion);
             _data.Responses.Add(newResponse);
             Console.WriteLine("questions ajoutée, voulez vous en ajouter encore ? o/n ");
             again = Console.ReadLine()?.Trim();
         } while (again == "o");
-
         Serializer.Serialize(_data, "databackup.json");
     }
-    private void RemoveQuestions()
+    
+    private void RemoveQuestion()
     {
-        Console.WriteLine("Saisissez le numéro de la supprimer.");
-        var number = int.Parse(Console.ReadLine() ?? string.Empty);
+        var counter = 0;
+        foreach (var question in _data.Questions)
+        {
+            counter++;
+            Console.WriteLine($"{counter} {question}");
+        }
+        int number;
+        do
+        {
+            Console.WriteLine("Saisissez le numéro de la supprimer.");
+        } while (int.TryParse(Console.ReadLine(),out number) && number <= counter );
         _data.Questions.RemoveAt(number - 1);
         _data.Responses.RemoveAt(number - 1);
         Serializer.Serialize(_data, "databackup.json");
     }
-
 }
