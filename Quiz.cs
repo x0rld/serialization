@@ -45,6 +45,7 @@ internal class Quiz
         Console.WriteLine("Début du quiz");
         int counter = 0;
         int counterOk = 0;
+        var userResponses = new List<string>();
         foreach (var question in _data.Questions)
         {
             Console.WriteLine(question);
@@ -56,11 +57,13 @@ internal class Quiz
 
             if (response.ToUpper().Contains(_data.Responses[counter].ToUpper()))
             {
+                userResponses.Add(response);
                 counterOk++;
                 Console.Clear();
             }
             else
             {
+                userResponses.Add(response);
                 Console.Clear();
                 Console.WriteLine("erreur question fausse");
             }
@@ -73,7 +76,7 @@ internal class Quiz
         {
             _data.Result.GoodResult++;
         }
-
+        _data.UserResponses.Add(userResponses);
         Console.WriteLine($"vous avez eu {counterOk} bonne réponses sur {counter}");
         Serializer.Serialize(_data, "databackup.json");
     }
@@ -90,9 +93,31 @@ internal class Quiz
         Console.WriteLine(
             $"les utilisateurs ont participés à {_data.Result.Participate} questionnaire. {_data.Result.GoodResult} sur {_data.Result.Participate} questionnaire " +
             "on obtenus une note supérieure à la moyenne");
-        AddQuestions();
     }
 
+    private void DisplayUserResponsesList()
+    {
+        if (!_isAdmin)
+        {
+            Console.WriteLine("vous n'êtes pas admin");
+            return;
+        }
+        var counter = 0;
+        foreach (var userResponse in _data.UserResponses)
+        {
+            Console.WriteLine("questionnaire " + counter);
+        }
+        Console.WriteLine("écrire le numéro du questionnaire à afficher");
+        var numberString = Console.ReadLine()?.Trim();
+        if (int.TryParse(numberString, out var number))
+        {
+            Console.WriteLine("les réponses sont: ");
+            foreach (var data in _data.UserResponses[number])
+            {
+                Console.WriteLine($"{data}");
+            }
+        }
+    }
     private void AddQuestions()
     {
         if (!_isAdmin)
