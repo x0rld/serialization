@@ -9,6 +9,8 @@ namespace serialize
     internal class Quiz
     {
         private readonly Root _data;
+
+        private bool isAdmin = false;
         //Constructeur
         public Quiz()
         {
@@ -27,6 +29,10 @@ namespace serialize
             {
                 if (user == userItem.Name || pass == userItem.Password) 
                 {
+                    if (user == "Admin")
+                    {
+                        isAdmin = true;
+                    }
                     Console.WriteLine("connecté");
                     return true;
                 }
@@ -73,12 +79,32 @@ namespace serialize
         //Affichage du menu pour l'Admin
         public void DisplayAdminMenu()
         {
-            string userAnswer;
+            if (!isAdmin)
+            {
+                Console.WriteLine("vous n'êtes pas admin");
+                return;
+            }
             Console.WriteLine("Voulez vous ouvrir un questionnaire? (o/n)");
-            userAnswer = Console.ReadLine();
+            var userAnswer = Console.ReadLine()?.Trim();
             Console.WriteLine($"les utilisateurs ont participés à {_data.Result.Participate} questionnaire. {_data.Result.GoodResult} sur {_data.Result.Participate} questionnaire " +
                               "on obtenus une note supérieure à la moyenne");
-            //TODO list quizz, edit, delete
+            //TODO delete, add questions
+        }
+
+        public void ListQuestions()
+        {
+            if (!isAdmin)
+            {
+                Console.WriteLine("vous n'êtes pas admin");
+                return;
+            }
+
+            int counter = 0;
+            foreach (var question in _data.Questions)
+            {
+                Console.WriteLine($"{counter}: ${question}");
+                counter++;
+            }
         }
 
 
