@@ -133,14 +133,10 @@ namespace serialize
         private void RemoveQuestions()
         {
             
-            Console.WriteLine("Saisissez le numéro de la supprimer.\nPour plusieurs questions, espacez les numéro d'une virgule.");
-            var numbers = Console.ReadLine().Split(",");
-            foreach (var number in numbers)
-            {
-                Console.WriteLine(Int32.Parse(number)-1);
-                _data.Questions.RemoveAt(Int32.Parse(number) - 1);
-                _data.Responses.RemoveAt(Int32.Parse(number) - 1);
-            }
+            Console.WriteLine("Saisissez le numéro de la supprimer.");
+            int number = Int32.Parse(Console.ReadLine());
+                _data.Questions.RemoveAt(number - 1);
+                _data.Responses.RemoveAt(number - 1);
             Serializer.Serialize(_data, "databackup.json");
         }
 
