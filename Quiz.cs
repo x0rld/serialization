@@ -109,7 +109,7 @@ namespace serialize
                 //   AddQuestions();   
             }
 
-            //TODO delete, add questions
+            //TODO  add questions
         }
 
         //Liste des questions
@@ -124,7 +124,7 @@ namespace serialize
             int counter = 0;
             foreach (var question in _data.Questions)
             {
-                Console.WriteLine($"{counter}: ${question}");
+                Console.WriteLine($"{counter}: {question}");
                 counter++;
             }
         }
@@ -132,26 +132,18 @@ namespace serialize
         //Supprimer une ou plusieurs questions
         private void RemoveQuestions()
         {
-            int counter = 0;
+            
             Console.WriteLine("Saisissez le numéro de la supprimer.\nPour plusieurs questions, espacez les numéro d'une virgule.");
             var numbers = Console.ReadLine().Split(",");
             foreach (var number in numbers)
             {
-                _data.Questions.RemoveAt(counter);
-                _data.Responses.RemoveAt(counter);
-                counter++;
+                Console.WriteLine(Int32.Parse(number)-1);
+                _data.Questions.RemoveAt(Int32.Parse(number) - 1);
+                _data.Responses.RemoveAt(Int32.Parse(number) - 1);
             }
-            Serializer.Serialize(_data,"databackup.json");
+            Serializer.Serialize(_data, "databackup.json");
         }
 
-        //Affichage de la liste des questionnaires.
-   /*     public void DisplayAdminListQuiz()
-        {
-            //Liste
-
-            Console.WriteLine("Voulez")
-        }
-   */
 
 
 
