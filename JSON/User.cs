@@ -1,4 +1,4 @@
-namespace serialize;
+namespace serialize.JSON;
 public class User
 {
     public int Id { get; set; }

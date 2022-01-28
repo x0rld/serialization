@@ -1,4 +1,5 @@
-﻿namespace serialize;
+﻿using serialize.JSON;
+namespace serialize;
 
 internal class Quiz
 {
@@ -19,10 +20,9 @@ internal class Quiz
             Console.WriteLine("Vous n'avez rien saisi.");
             return false;
         }
-        // recherche les éléments de Users qui ne match pas avec la regex
-
+        // Comparaison entre les données du json et les données rentrées par l'utilisateur
         if (_data.Users.Any(userItem => user == userItem.Name ||
-            Hash.ComparePAsswordHash(pass, userItem.Password)))
+                                        Hash.ComparePAsswordHash(pass, userItem.Password)))
         {
             if (user == "Admin")
             {

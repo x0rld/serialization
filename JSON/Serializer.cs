@@ -1,5 +1,6 @@
 using System.Text.Json;
-namespace serialize;
+
+namespace serialize.JSON;
 
 public class Serializer
 {

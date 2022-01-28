@@ -1,4 +1,4 @@
-namespace serialize;
+namespace serialize.JSON;
 public class Root
 {
     public List <User> Users { get; set; }
