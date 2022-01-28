@@ -117,7 +117,7 @@ internal class Quiz
         do
         {
             Console.WriteLine("écrire le numéro du questionnaire à afficher");
-        } while (int.TryParse(Console.ReadLine(), out number) && number <= counter);
+        } while (!int.TryParse(Console.ReadLine(), out number) && number <= counter);
         Console.WriteLine("les réponses sont: ");
             foreach (var data in _data.UserResponses[number])
             {
@@ -169,7 +169,7 @@ internal class Quiz
         do
         {
             Console.WriteLine("Saisissez le numéro de la supprimer.");
-        } while (int.TryParse(Console.ReadLine(),out number) && number <= counter );
+        } while (!int.TryParse(Console.ReadLine(),out number) && number <= counter );
         _data.Questions.RemoveAt(number - 1);
         _data.Responses.RemoveAt(number - 1);
         Serializer.Serialize(_data, "databackup.json");

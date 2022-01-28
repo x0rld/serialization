@@ -18,7 +18,7 @@ internal class Program
             {
                 Environment.Exit(1);
             }
-        } while (myQuiz.VerifUser(username, password));
+        } while (!myQuiz.VerifUser(username, password));
         //Si l'utilisateur est connecté, on vérifie maintenant s'il s'agit de l'admin ou d'un user.
         if (username != "Admin") // User car != admin
         {
