@@ -1,10 +1,8 @@
-﻿using System.Text.Json;
-namespace serialize;
+﻿namespace serialize;
 internal class Program
 {
     private static void Main(string[] args)
     {
-
         string? username;
         string? password;
         var myQuiz = new Quiz();

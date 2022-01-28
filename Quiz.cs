@@ -19,6 +19,7 @@ internal class Quiz
             Console.WriteLine("Vous n'avez rien saisi.");
             return false;
         }
+        // recherche les éléments de Users qui ne match pas avec la regex
 
         if (_data.Users.Any(userItem => user == userItem.Name ||
             Hash.ComparePAsswordHash(pass, userItem.Password)))
@@ -81,7 +82,8 @@ internal class Quiz
                 Console.WriteLine("vous n'êtes pas admin");
                 return;
             }
-            Console.WriteLine($"les utilisateurs ont participés à {_data.Result.Participate} questionnaire. {_data.Result.GoodResult} sur {_data.Result.Participate} questionnaire " +
+            Console.WriteLine($"les utilisateurs ont participés à {_data.Result.Participate} questionnaire." +
+                              $" {_data.Result.GoodResult} sur {_data.Result.Participate} questionnaire " +
                              "on obtenus une note supérieure à la moyenne");
             Console.WriteLine("Voulez vous ouvrir un questionnaire? (o/n)");
             var userAnswer = Console.ReadLine()?.Trim();
@@ -174,4 +176,4 @@ internal class Quiz
         _data.Responses.RemoveAt(number - 1);
         Serializer.Serialize(_data, "databackup.json");
     }
-}
+}   
